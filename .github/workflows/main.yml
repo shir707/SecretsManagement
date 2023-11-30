@@ -19,7 +19,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: ./config
+        working-directory: ./config/stage/terraform/eu-west-1
     steps:
       - name: Git checkout
         uses: actions/checkout@v3
