@@ -10,7 +10,7 @@ permissions:
       pull-requests: write # This is required for gh bot to comment PR
 
 env:
-  TF_LOG: INFO
+  PLAN : plan.tfplan
   AWS_REGION: ${{ secrets.AWS_REGION }}
 
 jobs:
@@ -49,7 +49,7 @@ jobs:
 
       - name: Terraform Plan
         id: plan
-        run: terraform plan -no-color
+        run: terraform plan -out=$PLAN
 
       - name: Terraform Apply
         run: terraform apply -auto-approve -input=false
