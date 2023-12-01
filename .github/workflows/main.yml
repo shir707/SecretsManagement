@@ -4,11 +4,9 @@ on:
     inputs:
       secretkey:
         description: "Enter your secret key name"
-        default: "test"
         type: string
       secretvalue:
         description: "Enter your secret value:"
-        default: "shir"
         type: string
       environment:
         description: "Enter the environment for secret creation:"
@@ -56,9 +54,9 @@ jobs:
       - name: see variales
         id: see_variales
         run: |
-          echo the secret key is {{ inputs.secretkey }}
-          echo the secret value is {{ inputs.secretvalue }}
-          echo the environment is {{ inputs.environment }}
+          echo the secret key is ${{ inputs.secretkey }}
+          echo the secret value is ${{ inputs.secretvalue }}
+          echo the environment is ${{ inputs.environment }}
 
       - name: Terraform Validate
         id: validate
