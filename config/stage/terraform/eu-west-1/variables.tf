@@ -18,6 +18,6 @@ variable "alias" {
   type = string
 }
 
-# variable "secrets" {
-#   description = "a json of secrets to decrypt"
-# }
+variable "secrets" {
+  description = "a json of secrets to decrypt"
+}

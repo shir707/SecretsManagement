@@ -5,3 +5,9 @@ module kms {
     enable_key_rotation = var.enable_key_rotation
     alias = var.alias
 }
+
+module secrets {
+    source = "../../../../terraform/packages/modules/secrets"
+    secrets = var.secrets
+    kms_key_id = module.kms.key_id
+}
