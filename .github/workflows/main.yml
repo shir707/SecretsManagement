@@ -56,7 +56,7 @@ jobs:
 
       - name: Terraform Plan
         id: plan
-        run: terraform plan -var-file="-no-color
+        run: terraform plan -no-color
         continue-on-error: true
         
       - uses: actions/github-script@v6
