@@ -5,7 +5,7 @@ new_key=$1
 new_value=$2
 
 # Check if the key already exists in the file
-if grep -qw "\b$new_key\b" secrets.auto.tfvars; then
+if [[grep -qw "\b$new_key\b" secrets.auto.tfvars]]; then
   echo "Key $new_key already exists in secrets.auto.tfvars"
 else
   # If the key does not exist, add it to the file
