@@ -44,6 +44,9 @@ jobs:
         with:
           terraform_version: 1.6.5
 
+      - name: install-aws-cli-action
+        uses: unfor19/install-aws-cli-action@v1
+            
       - name: Terraform Init
         id: init
         env:
@@ -51,16 +54,17 @@ jobs:
           AWS_BUCKET_KEY_NAME: ${{ secrets.AWS_BUCKET_KEY_NAME }}
         run: terraform init -backend-config="bucket=${AWS_BUCKET_NAME}" -backend-config="key=${AWS_BUCKET_KEY_NAME}" -backend-config="region=${AWS_REGION}"
     
-      - name: see variales
-        id: see_variales
-        run: |
-          echo the secret key is ${{ inputs.secretkey }}
-          echo the secret value is ${{ inputs.secretvalue }}
-          echo the environment is ${{ inputs.environment }}
-
       - name: Terraform Validate
         id: validate
         run: terraform validate -no-color
+      
+      - name: Terraform Secrets
+        id: secrets
+        run: |
+          secret_value=$(echo -n "${{ inputs.secretvalue }}" | base64 | tr -d '\n')
+          echo $secret_value
+          value=$(aws kms encrypt --key-id alias/encription_key --plaintext ${{ inputs.secretvalue }} --output text --region eu-west-1 --query CiphertextBlob)
+          echo "secret after AWS:" $value
 
       - name: Terraform Plan
         id: plan
