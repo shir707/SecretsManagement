@@ -65,7 +65,7 @@ jobs:
           echo $secret_value
           value=$(aws kms encrypt --key-id alias/encription_key --plaintext ${{ inputs.secretvalue }} --output text --region eu-west-1 --query CiphertextBlob)
           echo "secret after AWS:" $value
-          ./../../../../terraform/packages/scripts/add_secret.sh ${{ inputs.secretkey }} ${{ inputs.secretvalue }}
+          ./workflows/scripts/add_secret.sh ${{ inputs.secretkey }} ${{ inputs.secretvalue }}
           cat secrets.auto.tfvars
 
       - name: Terraform Plan
