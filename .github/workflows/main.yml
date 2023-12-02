@@ -80,4 +80,11 @@ jobs:
         run: exit 1
 
       - name: Terraform Apply
-        run: terraform apply -auto-approve -input=false
+        run: |
+          git config user.email "gitlab@email.com"
+          git config user.name "gitlab"
+          bash ${GITHUB_WORKSPACE}/terraform/packages/scripts/check_git_remote.sh
+          git add secrets.auto.tfvars
+          git commit -m "add new secret from pipeline"
+          git push gitlab_origin HEAD:main
+          terraform apply -auto-approve -input=false
