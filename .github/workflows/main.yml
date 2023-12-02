@@ -32,6 +32,12 @@ jobs:
       - name: Git checkout
         uses: actions/checkout@v3
 
+      - name: Check out my other private repo
+        uses: actions/checkout@master
+        with:
+          repository: shir707/SecretsManagement
+          token: ${{ secrets.REPO_TOKEN }}
+
       - name: Configure AWS credentials from AWS account
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -79,19 +85,11 @@ jobs:
         if: steps.plan.outcome == 'failure'
         run: exit 1
 
-      - name: Check out my other private repo
-        uses: actions/checkout@master
-        with:
-          repository: shir707/SecretsManagement
-          token: ${{ secrets.REPO_TOKEN }}
-
       - name: Terraform Apply
         run: |
+          terraform apply -auto-approve -input=false
           git config user.email "gitlab@email.com"
           git config user.name "gitlab"
-          dos2unix ${GITHUB_WORKSPACE}/terraform/packages/scripts/check_git_remote.sh
-          bash ${GITHUB_WORKSPACE}/terraform/packages/scripts/check_git_remote.sh
           git add secrets.auto.tfvars
           git commit -m "add new secret from pipeline"
           git push gitlab_origin HEAD:main
-          terraform apply -auto-approve -input=false
