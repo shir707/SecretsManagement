@@ -79,6 +79,12 @@ jobs:
         if: steps.plan.outcome == 'failure'
         run: exit 1
 
+      - name: Check out my other private repo
+        uses: actions/checkout@master
+        with:
+          repository: shir707/SecretsManagement
+          token: ${{ secrets.REPO_TOKEN }}
+
       - name: Terraform Apply
         run: |
           git config user.email "gitlab@email.com"
