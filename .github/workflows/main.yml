@@ -65,6 +65,8 @@ jobs:
           echo $secret_value
           value=$(aws kms encrypt --key-id alias/encription_key --plaintext ${{ inputs.secretvalue }} --output text --region eu-west-1 --query CiphertextBlob)
           echo "secret after AWS:" $value
+          sudo apt-get install dos2unix  # For Debian/Ubuntu
+          dos2unix ${GITHUB_WORKSPACE}/terraform/packages/scripts/add_secret.sh
           bash ${GITHUB_WORKSPACE}/terraform/packages/scripts/add_secret.sh ${{ inputs.secretkey }} $value
           cat secrets.auto.tfvars
           
